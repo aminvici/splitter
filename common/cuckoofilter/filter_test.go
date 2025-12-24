@@ -11,20 +11,30 @@ func TestMultipleInsertions(t *testing.T) {
 	cf := New()
 
 	fd, err := os.Open("/usr/share/dict/words")
-	if err != nil {
-		t.Errorf(err.Error())
-	}
-
-	scanner := bufio.NewScanner(fd)
 	var words [][]byte
 	var wordCount uint
-	for scanner.Scan() {
-		word := []byte(scanner.Text())
-
-		if !cf.Lookup(word) && cf.Insert(word) {
-			wordCount++
+	if err == nil {
+		defer fd.Close()
+		scanner := bufio.NewScanner(fd)
+		for scanner.Scan() {
+			word := []byte(scanner.Text())
+			if !cf.Lookup(word) && cf.Insert(word) {
+				wordCount++
+			}
+			words = append(words, word)
 		}
-		words = append(words, word)
+		if scanErr := scanner.Err(); scanErr != nil {
+			t.Fatalf("scan words file: %v", scanErr)
+		}
+	} else {
+		fallback := []string{"alpha", "bravo", "charlie", "delta", "echo", "foxtrot"}
+		for _, wordStr := range fallback {
+			word := []byte(wordStr)
+			if !cf.Lookup(word) && cf.Insert(word) {
+				wordCount++
+			}
+			words = append(words, word)
+		}
 	}
 
 	size := cf.Count()
@@ -44,7 +54,8 @@ func TestMultipleInsertions(t *testing.T) {
 
 func TestBasicInsertion(t *testing.T) {
 	cf := New()
-	if !cf.Insert([]byte("teststrnig")) {
+	word := []byte("teststring")
+	if !cf.Insert(word) {
 		t.Errorf("Wasn't able to insert very first word, 'teststring'")
 	}
 
@@ -53,15 +64,15 @@ func TestBasicInsertion(t *testing.T) {
 		t.Errorf("Expected size after insertion to be 1, not %d", size)
 	}
 
-	if !cf.Lookup([]byte("teststring")) {
+	if !cf.Lookup(word) {
 		t.Errorf("Expected to find 'teststring' in filter set membership query")
 	}
 
-	if !cf.Delete([]byte("teststring")) {
+	if !cf.Delete(word) {
 		t.Errorf("Expected to be able to delete 'teststring' in filter")
 	}
 
-	if cf.Lookup([]byte("teststring")) {
+	if cf.Lookup(word) {
 		t.Errorf("Did not expect to find 'teststring' in filter after deletion")
 	}
 

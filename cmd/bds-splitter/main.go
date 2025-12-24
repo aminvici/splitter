@@ -71,7 +71,7 @@ func (w *serviceWrapper) run() {
 	}
 	// check config file
 	if _, err := os.Stat(configFile); err != nil {
-		fmt.Fprintf(os.Stderr, fmt.Sprintf("config file is not exist, please check %s.\n", configFile))
+		fmt.Fprintf(os.Stderr, "config file is not exist, please check %s.\n", configFile)
 		os.Exit(2)
 	}
 
