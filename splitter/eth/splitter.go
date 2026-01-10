@@ -387,7 +387,7 @@ func (s *ETHSplitter) SaveBlock(data *ETHBlockData) error {
 	return nil
 }
 
-//revert block
+// revert block
 func (s *ETHSplitter) RevertBlock(height int64, tx *service.Transaction) error {
 	startTime := time.Now()
 	var err error
@@ -455,7 +455,7 @@ type TokenAccountBalance struct {
 	Balance      *big.Int
 }
 
-//check json schema
+// check json schema
 func (s *ETHSplitter) jsonSchemaValid(data string) (bool, error) {
 	startTime := time.Now()
 	dataLoader := gojsonschema.NewStringLoader(data)

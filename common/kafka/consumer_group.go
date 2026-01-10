@@ -1,7 +1,7 @@
 package kafka
 
 import (
-	"github.com/Shopify/sarama"
+	"github.com/IBM/sarama"
 	"github.com/bsm/sarama-cluster"
 	"github.com/jdcloud-bds/bds/common/log"
 	"strings"

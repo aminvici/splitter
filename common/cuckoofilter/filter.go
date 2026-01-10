@@ -20,11 +20,11 @@ type CFilter struct {
 // Size behave as their names suggest.
 // Takes zero or more of the following option functions and applies them in
 // order to the Filter:
-//      - cuckoofilter.Size(uint) sets the number of buckets in the filter
-//      - cuckoofilter.BucketSize(uint8) sets the size of each bucket
-//      - cuckoofilter.FingerprintSize(uint8) sets the size of the fingerprint
-//      - cuckoofilter.MaximumKicks(uint) sets the maximum number of bucket kicks
-//      - cuckoofilter.HashFn(hash.Hash) sets the fingerprinting hashing function
+//   - cuckoofilter.Size(uint) sets the number of buckets in the filter
+//   - cuckoofilter.BucketSize(uint8) sets the size of each bucket
+//   - cuckoofilter.FingerprintSize(uint8) sets the size of the fingerprint
+//   - cuckoofilter.MaximumKicks(uint) sets the maximum number of bucket kicks
+//   - cuckoofilter.HashFn(hash.Hash) sets the fingerprinting hashing function
 func NewCuckooFilter(opts ...option) *CFilter {
 	cf := new(CFilter)
 	for _, opt := range opts {

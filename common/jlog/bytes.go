@@ -21,10 +21,12 @@ var bytesPattern *regexp.Regexp = regexp.MustCompile(`(?i)^(-?\d+)([KMGT]B?|B)$`
 var invalidByteQuantityError = errors.New("Byte quantity must be a positive integer with a unit of measurement like M, MB, G, or GB")
 
 // ByteSize returns a human readable byte string, of the format 10M, 12.5K, etc.  The following units are available:
+//
 //	T Terabyte
 //	G Gigabyte
 //	M Megabyte
 //	K Kilobyte
+//
 // the unit that would result in printing the smallest whole number is always chosen
 func Itob(b uint64) string {
 	u := ""

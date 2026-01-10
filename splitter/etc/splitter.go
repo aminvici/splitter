@@ -341,7 +341,7 @@ func (s *ETCSplitter) SaveBlock(data *ETCBlockData) error {
 	return nil
 }
 
-//revert block
+// revert block
 func (s *ETCSplitter) RevertBlock(height int64, tx *service.Transaction) error {
 	startTime := time.Now()
 	var err error
@@ -381,7 +381,7 @@ func (s *ETCSplitter) RevertBlock(height int64, tx *service.Transaction) error {
 	return nil
 }
 
-//check json schema
+// check json schema
 func (s *ETCSplitter) jsonSchemaValid(data string) (bool, error) {
 	startTime := time.Now()
 	dataLoader := gojsonschema.NewStringLoader(data)

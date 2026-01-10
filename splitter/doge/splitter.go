@@ -119,7 +119,7 @@ func (s *DOGESplitter) CheckBlock(curBlock *DOGEBlockData) (bool, int64) {
 	return true, height
 }
 
-//revert block by height
+// revert block by height
 func (s *DOGESplitter) RevertBlock(height int64, tx *service.Transaction) error {
 	startTime := time.Now()
 	//revert vout is_used, address value, miner coinbase_times
@@ -241,7 +241,7 @@ func (s *DOGESplitter) Start() {
 	}
 }
 
-//check json schema
+// check json schema
 func (s *DOGESplitter) CheckMissedBlock() ([]int64, error) {
 	missedList := make([]int64, 0)
 
@@ -279,7 +279,7 @@ func (s *DOGESplitter) CheckMissedBlock() ([]int64, error) {
 	return missedList, nil
 }
 
-//check json schema
+// check json schema
 func (s *DOGESplitter) jsonSchemaValid(data string) (bool, error) {
 	startTime := time.Now()
 	dataLoader := gojsonschema.NewStringLoader(data)

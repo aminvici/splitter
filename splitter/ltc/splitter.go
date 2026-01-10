@@ -118,7 +118,7 @@ func (s *LTCSplitter) CheckBlock(curBlock *LTCBlockData) (bool, int64) {
 	return true, height
 }
 
-//revert block by height
+// revert block by height
 func (s *LTCSplitter) RevertBlock(height int64, tx *service.Transaction) error {
 	startTime := time.Now()
 	//revert vout is_used, address value, miner coinbase_times
@@ -240,7 +240,7 @@ func (s *LTCSplitter) Start() {
 	}
 }
 
-//check json schema
+// check json schema
 func (s *LTCSplitter) jsonSchemaValid(data string) (bool, error) {
 	startTime := time.Now()
 	dataLoader := gojsonschema.NewStringLoader(data)

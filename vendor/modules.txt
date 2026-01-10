@@ -4,12 +4,19 @@ filippo.io/edwards25519
 filippo.io/edwards25519/field
 # github.com/IBM/sarama v1.46.3
 ## explicit; go 1.24.0
-# github.com/Shopify/sarama v1.19.0 => github.com/IBM/sarama v1.46.1
-## explicit; go 1.24.0
+github.com/IBM/sarama
+# github.com/Shopify/sarama v1.19.0 => github.com/IBM/sarama v1.46.0
+## explicit; go 1.23.0
 github.com/Shopify/sarama
 # github.com/bsm/sarama-cluster v2.1.15+incompatible
 ## explicit
 github.com/bsm/sarama-cluster
+# github.com/cossacklabs/themis/gothemis v0.15.0
+## explicit
+github.com/cossacklabs/themis/gothemis/cell
+github.com/cossacklabs/themis/gothemis/errors
+github.com/cossacklabs/themis/gothemis/keys
+github.com/cossacklabs/themis/gothemis/message
 # github.com/davecgh/go-spew v1.1.1
 ## explicit
 github.com/davecgh/go-spew/spew
@@ -99,8 +106,6 @@ github.com/jcmturner/gokrb5/v8/types
 ## explicit; go 1.13
 github.com/jcmturner/rpc/v2/mstypes
 github.com/jcmturner/rpc/v2/ndr
-# github.com/jdcloud-bri/themis v0.0.0-20190614063219-a7910ff4d79a
-## explicit
 # github.com/klauspost/compress v1.18.1
 ## explicit; go 1.23
 github.com/klauspost/compress
@@ -158,5 +163,6 @@ xorm.io/builder
 # xorm.io/core v0.7.3
 ## explicit
 xorm.io/core
-# github.com/Shopify/sarama => github.com/IBM/sarama v1.46.1
+# github.com/Shopify/sarama => github.com/IBM/sarama v1.46.0
 # github.com/greenplum-db/pq => github.com/lib/pq v1.10.4
+# github.com/kataras/iris => github.com/kataras/iris/v12 v12.2.11

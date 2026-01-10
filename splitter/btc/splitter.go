@@ -132,7 +132,7 @@ func (s *BTCSplitter) CheckBlock(curBlock *BTCBlockData) (bool, int64) {
 	return true, height
 }
 
-//revert block by height
+// revert block by height
 func (s *BTCSplitter) RevertBlock(height int64, tx *service.Transaction) error {
 	startTime := time.Now()
 	//revert vout is_used, address value, miner coinbase_times
@@ -271,7 +271,7 @@ func (s *BTCSplitter) Start() {
 	}
 }
 
-//check json schema
+// check json schema
 func (s *BTCSplitter) jsonSchemaValid(data string) (bool, error) {
 	startTime := time.Now()
 	dataLoader := gojsonschema.NewStringLoader(data)
@@ -655,7 +655,7 @@ func (s *BTCSplitter) UpdateTetherAddress(data *BTCBlockData, tx *service.Transa
 	return nil
 }
 
-//revert tether address table
+// revert tether address table
 func (s *BTCSplitter) RevertTetherAddress(height int64, tx *service.Transaction) error {
 	addressList := make([]*model.TetherAddress, 0)
 	//delete address witch is new in this block

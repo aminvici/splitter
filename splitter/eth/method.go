@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-//parser block
+// parser block
 func ParseBlock(data string) (*ETHBlockData, error) {
 	startTime := time.Now()
 	var err error
@@ -493,7 +493,7 @@ func ParseBlock(data string) (*ETHBlockData, error) {
 	return b, nil
 }
 
-//revert miner count by height
+// revert miner count by height
 func revertMiner(height int64, tx *service.Transaction) error {
 	startTime := time.Now()
 	index := "revert_miner"
@@ -518,7 +518,7 @@ func revertMiner(height int64, tx *service.Transaction) error {
 	return nil
 }
 
-//revert account balance by height
+// revert account balance by height
 func revertAccountBalance(height int64, tx *service.Transaction, handler *rpcHandler) error {
 	startTime := time.Now()
 	index := "revert_account"
@@ -600,7 +600,7 @@ func revertAccountBalance(height int64, tx *service.Transaction, handler *rpcHan
 	return nil
 }
 
-//revert token account balance by height
+// revert token account balance by height
 func revertTokenAccount(height int64, tx *service.Transaction, handler *rpcHandler) error {
 	startTime := time.Now()
 	index := "revert_token_account"
@@ -676,7 +676,7 @@ func revertTokenAccount(height int64, tx *service.Transaction, handler *rpcHandl
 	return nil
 }
 
-//revert block by height
+// revert block by height
 func revertBlock(height int64, tx *service.Transaction) error {
 	startTime := time.Now()
 	sql := fmt.Sprintf("DELETE from eth_block WHERE height = %d", height)
@@ -690,7 +690,7 @@ func revertBlock(height int64, tx *service.Transaction) error {
 	return nil
 }
 
-//revert uncle by height
+// revert uncle by height
 func revertUncle(height int64, tx *service.Transaction) error {
 	startTime := time.Now()
 	sql := fmt.Sprintf("DELETE from eth_uncle WHERE block_height = %d", height)
@@ -704,7 +704,7 @@ func revertUncle(height int64, tx *service.Transaction) error {
 	return nil
 }
 
-//revert transaction
+// revert transaction
 func revertTransaction(height int64, tx *service.Transaction) error {
 	startTime := time.Now()
 	sql := fmt.Sprintf("delete from eth_transaction where block_height = %d", height)
@@ -718,7 +718,7 @@ func revertTransaction(height int64, tx *service.Transaction) error {
 	return nil
 }
 
-//revert token transaction
+// revert token transaction
 func revertTokenTransaction(height int64, tx *service.Transaction) error {
 	startTime := time.Now()
 	sql := fmt.Sprintf("DELETE FROM eth_token_transaction WHERE block_height = %d", height)
@@ -732,7 +732,7 @@ func revertTokenTransaction(height int64, tx *service.Transaction) error {
 	return nil
 }
 
-//revert ens
+// revert ens
 func revertENS(height int64, tx *service.Transaction) error {
 	startTime := time.Now()
 	sql := fmt.Sprintf("DELETE FROM eth_ens WHERE block_height = %d", height)
@@ -746,7 +746,7 @@ func revertENS(height int64, tx *service.Transaction) error {
 	return nil
 }
 
-//revert internal transaction
+// revert internal transaction
 func revertInternalTransaction(height int64, tx *service.Transaction) error {
 	startTime := time.Now()
 	sql := fmt.Sprintf("DELETE FROM eth_internal_transaction WHERE block_height = %d", height)
@@ -760,7 +760,7 @@ func revertInternalTransaction(height int64, tx *service.Transaction) error {
 	return nil
 }
 
-//update token and toke account
+// update token and toke account
 func updateToken(data *ETHBlockData, tx *service.Transaction) error {
 	var totalInsertAffected, totalDeleteAffected int64
 	for _, v := range data.Tokens {
@@ -818,7 +818,7 @@ func updateToken(data *ETHBlockData, tx *service.Transaction) error {
 	return nil
 }
 
-//update account
+// update account
 func updateAccount(data *ETHBlockData, tx *service.Transaction) error {
 	var totalInsertAffected, totalDeleteAffected int64
 	for _, v := range data.Accounts {
@@ -867,7 +867,7 @@ func updateAccount(data *ETHBlockData, tx *service.Transaction) error {
 	return nil
 }
 
-//update real difficulty
+// update real difficulty
 func updateRealDifficulty(data *ETHBlockData, tx *service.Transaction) error {
 	sql := fmt.Sprintf("UPDATE c SET real_difficulty=d.realdif"+
 		" FROM eth_block c"+

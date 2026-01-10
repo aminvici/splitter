@@ -25,7 +25,7 @@ func newRPCHandler(c *jsonrpc.Client) (*rpcHandler, error) {
 	return h, nil
 }
 
-//get max height of block by rpc
+// get max height of block by rpc
 func (h *rpcHandler) GetBlockNumber() (int64, error) {
 	defer stats.Add(MetricRPCCall, 1)
 	data, err := h.client.Call("eth_blockNumber")
@@ -44,7 +44,7 @@ func (h *rpcHandler) GetBlockNumber() (int64, error) {
 	return number, nil
 }
 
-//get address balance by rpc
+// get address balance by rpc
 func (h *rpcHandler) GetBalance(address string, height int64) (*big.Int, error) {
 	if len(address) <= 0 {
 		return big.NewInt(0), nil
@@ -74,7 +74,7 @@ func (h *rpcHandler) GetBalance(address string, height int64) (*big.Int, error) 
 	return value, nil
 }
 
-//get token information by address
+// get token information by address
 func (h *rpcHandler) GetToken(tokenAddress string) (*model.Token, error) {
 	token := new(model.Token)
 	name, err := h.GetTokenName(tokenAddress)
@@ -113,7 +113,7 @@ func byteString(p []byte) string {
 	return *(*string)(unsafe.Pointer(&p))
 }
 
-//get token owner by address
+// get token owner by address
 func (h *rpcHandler) GetTokenOwner(tokenAddress string) (string, error) {
 	params := make(map[string]interface{}, 0)
 	params["to"] = fmt.Sprintf("0x%s", tokenAddress)
@@ -140,7 +140,7 @@ func (h *rpcHandler) GetTokenOwner(tokenAddress string) (string, error) {
 	return temp, nil
 }
 
-//get token supply by address
+// get token supply by address
 func (h *rpcHandler) GetTokenTotalSupply(tokenAddress string) (string, error) {
 	params := make(map[string]interface{}, 0)
 	params["to"] = fmt.Sprintf("0x%s", tokenAddress)
@@ -162,7 +162,7 @@ func (h *rpcHandler) GetTokenTotalSupply(tokenAddress string) (string, error) {
 	return temp.String(), nil
 }
 
-//get token decimal by address
+// get token decimal by address
 func (h *rpcHandler) GetTokenDecimal(tokenAddress string) (int64, error) {
 	params := make(map[string]interface{}, 0)
 	params["to"] = fmt.Sprintf("0x%s", tokenAddress)
@@ -184,7 +184,7 @@ func (h *rpcHandler) GetTokenDecimal(tokenAddress string) (int64, error) {
 	return temp.Int64(), nil
 }
 
-//get token symbol by address
+// get token symbol by address
 func (h *rpcHandler) GetTokenSymbol(tokenAddress string) (string, error) {
 	params := make(map[string]interface{}, 0)
 	params["to"] = fmt.Sprintf("0x%s", tokenAddress)
@@ -211,7 +211,7 @@ func (h *rpcHandler) GetTokenSymbol(tokenAddress string) (string, error) {
 	return temp, nil
 }
 
-//get token name by address
+// get token name by address
 func (h *rpcHandler) GetTokenName(tokenAddress string) (string, error) {
 	params := make(map[string]interface{}, 0)
 	params["to"] = fmt.Sprintf("0x%s", tokenAddress)
@@ -238,7 +238,7 @@ func (h *rpcHandler) GetTokenName(tokenAddress string) (string, error) {
 	return temp, nil
 }
 
-//get token balance by token address and account address
+// get token balance by token address and account address
 func (h *rpcHandler) GetTokenBalance(tokenAddress string, accountAddress string, height int64) (*big.Int, error) {
 	defer stats.Add(MetricRPCCall, 1)
 	params := make(map[string]interface{}, 0)
@@ -275,7 +275,7 @@ func (h *rpcHandler) GetTokenBalance(tokenAddress string, accountAddress string,
 	return balance, nil
 }
 
-//let node send block by height
+// let node send block by height
 func (h *rpcHandler) SendBlock(number int64) error {
 	defer stats.Add(MetricRPCCall, 1)
 	hexNumber := fmt.Sprintf("%#x", number)
@@ -286,7 +286,7 @@ func (h *rpcHandler) SendBlock(number int64) error {
 	return nil
 }
 
-//let node send block by height from startNumber to endNumber
+// let node send block by height from startNumber to endNumber
 func (h *rpcHandler) SendBatchBlock(startNumber, endNumber int64) error {
 	defer stats.Add(MetricRPCCall, 1)
 	hexStartNumber := fmt.Sprintf("%#x", startNumber)

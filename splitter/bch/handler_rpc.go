@@ -14,7 +14,7 @@ func newRPCHandler(c *jsonrpc.Client) (*rpcHandler, error) {
 	return h, nil
 }
 
-//let BCH node send data by height
+// let BCH node send data by height
 func (h *rpcHandler) SendBlock(height int64) error {
 	defer stats.Add(MetricRPCCall, 1)
 	_, err := h.client.Call("sendblock", height)
@@ -25,7 +25,7 @@ func (h *rpcHandler) SendBlock(height int64) error {
 	return nil
 }
 
-//let BTC node send data from startHeight to endHeight
+// let BTC node send data from startHeight to endHeight
 func (h *rpcHandler) SendBatchBlock(startHeight, endHeight int64) error {
 	defer stats.Add(MetricRPCCall, 1)
 	_, err := h.client.Call("sendbatchblock", startHeight, endHeight)

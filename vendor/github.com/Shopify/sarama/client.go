@@ -6,7 +6,6 @@ import (
 	"math"
 	"math/rand"
 	"net"
-	"slices"
 	"sort"
 	"strings"
 	"sync"
@@ -98,13 +97,13 @@ type Client interface {
 	// in local cache. This function only works on Kafka 0.8.2 and higher.
 	RefreshCoordinator(consumerGroup string) error
 
-	// TransactionCoordinator returns the coordinating broker for a transaction id. It will
+	// Coordinator returns the coordinating broker for a transaction id. It will
 	// return a locally cached value if it's available. You can call
 	// RefreshCoordinator to update the cached value. This function only works on
 	// Kafka 0.11.0.0 and higher.
 	TransactionCoordinator(transactionID string) (*Broker, error)
 
-	// RefreshTransactionCoordinator retrieves the coordinator for a transaction id and stores it
+	// RefreshCoordinator retrieves the coordinator for a transaction id and stores it
 	// in local cache. This function only works on Kafka 0.11.0.0 and higher.
 	RefreshTransactionCoordinator(transactionID string) error
 
@@ -114,7 +113,7 @@ type Client interface {
 	// LeastLoadedBroker retrieves broker that has the least responses pending
 	LeastLoadedBroker() *Broker
 
-	// PartitionNotReadable checks if partition is not readable
+	// check if partition is readable
 	PartitionNotReadable(topic string, partition int32) bool
 
 	// Close shuts down all broker connections managed by this client. It is required
@@ -144,7 +143,7 @@ type client struct {
 	// updateMetadataMs stores the time at which metadata was lasted updated.
 	// Note: this accessed atomically so must be the first word in the struct
 	// as per golang/go#41970
-	updateMetadataMs atomic.Int64
+	updateMetadataMs int64
 
 	conf           *Config
 	closer, closed chan none // for shutting down background metadata updater
@@ -518,8 +517,10 @@ func (client *client) RefreshMetadata(topics ...string) error {
 	// Prior to 0.8.2, Kafka will throw exceptions on an empty topic and not return a proper
 	// error. This handles the case by returning an error instead of sending it
 	// off to Kafka. See: https://github.com/IBM/sarama/pull/38#issuecomment-26362310
-	if slices.Contains(topics, "") {
-		return ErrInvalidTopic // this is the error that 0.8.2 and later correctly return
+	for _, topic := range topics {
+		if topic == "" {
+			return ErrInvalidTopic // this is the error that 0.8.2 and later correctly return
+		}
 	}
 	return client.metadataRefresh(topics)
 }
@@ -968,7 +969,7 @@ func (client *client) tryRefreshMetadata(topics []string, attemptsRemaining int,
 				time.Sleep(backoff)
 			}
 
-			t := client.updateMetadataMs.Load()
+			t := atomic.LoadInt64(&client.updateMetadataMs)
 			if time.Since(time.UnixMilli(t)) < backoff {
 				return err
 			}
@@ -993,7 +994,7 @@ func (client *client) tryRefreshMetadata(topics []string, attemptsRemaining int,
 
 		req := NewMetadataRequest(client.conf.Version, topics)
 		req.AllowAutoTopicCreation = allowAutoTopicCreation
-		client.updateMetadataMs.Store(time.Now().UnixMilli())
+		atomic.StoreInt64(&client.updateMetadataMs, time.Now().UnixMilli())
 
 		response, err := broker.GetMetadata(req)
 		var kerror KError

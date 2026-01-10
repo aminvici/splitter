@@ -122,8 +122,8 @@ func ParseBlock(data string) (*BTCBlockData, error) {
 	return b, nil
 }
 
-//There is a bug when use xorm and sql server that leading to version=0
-//update transaction version after transactions have been inserted
+// There is a bug when use xorm and sql server that leading to version=0
+// update transaction version after transactions have been inserted
 func updateTransactionVersion(tx *service.Transaction, txVersion []int64, data *BTCBlockData) error {
 	count := 0
 	var sql, sqlUpdate, sqlUpdate2 string
@@ -157,7 +157,7 @@ func updateTransactionVersion(tx *service.Transaction, txVersion []int64, data *
 	return nil
 }
 
-//update address value, vout is_used, miner coinbase_times after each block
+// update address value, vout is_used, miner coinbase_times after each block
 func UpdateBlock(data *BTCBlockData, tx *service.Transaction) error {
 	height := data.Block.Height
 	err := updateVOutIsUsed(height, tx)
@@ -178,7 +178,7 @@ func UpdateBlock(data *BTCBlockData, tx *service.Transaction) error {
 	return nil
 }
 
-//update miner numbers
+// update miner numbers
 func updateCoinbaseAddressCount(height int64, tx *service.Transaction) error {
 	startTime := time.Now()
 	index := "coinbase_address_count"
@@ -241,7 +241,7 @@ func revertBlock(height int64, tx *service.Transaction) error {
 	return nil
 }
 
-//revert vout is_used
+// revert vout is_used
 func revertSelectVInValueAndAddress(height int64, tx *service.Transaction) error {
 	startTime := time.Now()
 	index := "revert_select_vin_value_and_address"
@@ -255,7 +255,7 @@ func revertSelectVInValueAndAddress(height int64, tx *service.Transaction) error
 	return nil
 }
 
-//revert address value
+// revert address value
 func revertAddressTable(height int64, tx *service.Transaction) error {
 	startTime := time.Now()
 	index := "revert_address_table"
@@ -293,7 +293,7 @@ func revertAddressTable(height int64, tx *service.Transaction) error {
 	return nil
 }
 
-//revert miner coinbase times
+// revert miner coinbase times
 func revertCoinbaseAddressCount(height int64, tx *service.Transaction) error {
 	startTime := time.Now()
 	index := "revert_coinbase_address_count"
@@ -340,7 +340,7 @@ func updateVInAddressAndValue(tx *service.Transaction, data *BTCBlockData) error
 	return nil
 }
 
-//update vout is_used
+// update vout is_used
 func updateVOutIsUsed(height int64, tx *service.Transaction) error {
 	vOut := make([]*model.VOut, 0)
 	sql := fmt.Sprintf("select a.* from btc_vout as a inner join (select tx_id_origin,vout_num_origin from btc_vin where block_height=%d) as b on a.tx_id=b.tx_id_origin and a.number=b.vout_num_origin", height)
@@ -376,7 +376,7 @@ func updateVOutIsUsed(height int64, tx *service.Transaction) error {
 	return nil
 }
 
-//update address value and latest active time
+// update address value and latest active time
 func updateAddressTable(data *BTCBlockData, tx *service.Transaction) error {
 	height := data.Block.Height
 	index := "update_address_table"
@@ -447,7 +447,7 @@ func updateAddressTable(data *BTCBlockData, tx *service.Transaction) error {
 	return nil
 }
 
-//Fill in the name of the miner
+// Fill in the name of the miner
 func GetBlockMiner(data *BTCBlockData, tx *service.Transaction) error {
 	miner := new(model.Mining)
 	if len(data.VOuts) == 0 {

@@ -155,7 +155,7 @@ func UpdateBlock(data *BSVBlockData, tx *service.Transaction) error {
 	return nil
 }
 
-//更新矿工挖矿数量
+// 更新矿工挖矿数量
 func updateCoinbaseAddressCount(height int64, tx *service.Transaction) error {
 	startTime := time.Now()
 	index := "coinbase_address_count"
@@ -213,7 +213,7 @@ func revertBlock(height int64, tx *service.Transaction) error {
 	return nil
 }
 
-//更新vin表中的value和address,vout表中的isused
+// 更新vin表中的value和address,vout表中的isused
 func revertSelectVInValueAndAddress(height int64, tx *service.Transaction) error {
 	startTime := time.Now()
 	index := "revert_select_vin_value_and_address"
@@ -227,7 +227,7 @@ func revertSelectVInValueAndAddress(height int64, tx *service.Transaction) error
 	return nil
 }
 
-//插入新的账户地址，更新旧地址的最后交易时间，重新计算余额
+// 插入新的账户地址，更新旧地址的最后交易时间，重新计算余额
 func revertAddressTable(height int64, tx *service.Transaction) error {
 	startTime := time.Now()
 	index := "revert_address_table"
@@ -265,7 +265,7 @@ func revertAddressTable(height int64, tx *service.Transaction) error {
 	return nil
 }
 
-//更新矿工挖矿数量
+// 更新矿工挖矿数量
 func revertCoinbaseAddressCount(height int64, tx *service.Transaction) error {
 	startTime := time.Now()
 	index := "revert_coinbase_address_count"
@@ -347,7 +347,7 @@ func updateVOutIsUsed(height int64, tx *service.Transaction) error {
 	return nil
 }
 
-//插入新的账户地址，更新旧地址的最后交易时间，重新计算余额
+// 插入新的账户地址，更新旧地址的最后交易时间，重新计算余额
 func updateAddressTable(data *BSVBlockData, tx *service.Transaction) error {
 	height := data.Block.Height
 	index := "update_address_table"
@@ -403,7 +403,7 @@ func updateAddressTable(data *BSVBlockData, tx *service.Transaction) error {
 	return nil
 }
 
-//更新标记block所属矿池
+// 更新标记block所属矿池
 func GetBlockMiner(data *BSVBlockData, tx *service.Transaction) error {
 	miner := new(model.Mining)
 	if len(data.VOuts) == 0 {

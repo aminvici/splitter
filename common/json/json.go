@@ -589,9 +589,9 @@ func tostr(json string) (raw string, str string) {
 
 // Exists returns true if value exists.
 //
-//  if json.Get(json, "name.last").Exists(){
-//		println("value exists")
-//  }
+//	 if json.Get(json, "name.last").Exists(){
+//			println("value exists")
+//	 }
 func (t Result) Exists() bool {
 	return t.Type != Null || len(t.Raw) != 0
 }
@@ -605,7 +605,6 @@ func (t Result) Exists() bool {
 //	nil, for JSON null
 //	map[string]interface{}, for JSON objects
 //	[]interface{}, for JSON arrays
-//
 func (t Result) Value() interface{} {
 	if t.Type == String {
 		return t.Str
@@ -1365,23 +1364,23 @@ type parseContext struct {
 // To get the number of elements in an array or to access a child path, use the '#' character.
 // The dot and wildcard character can be escaped with '\'.
 //
-//  {
-//    "name": {"first": "Tom", "last": "Anderson"},
-//    "age":37,
-//    "children": ["Sara","Alex","Jack"],
-//    "friends": [
-//      {"first": "James", "last": "Murphy"},
-//      {"first": "Roger", "last": "Craig"}
-//    ]
-//  }
-//  "name.last"          >> "Anderson"
-//  "age"                >> 37
-//  "children"           >> ["Sara","Alex","Jack"]
-//  "children.#"         >> 3
-//  "children.1"         >> "Alex"
-//  "child*.2"           >> "Jack"
-//  "c?ildren.0"         >> "Sara"
-//  "friends.#.first"    >> ["James","Roger"]
+//	{
+//	  "name": {"first": "Tom", "last": "Anderson"},
+//	  "age":37,
+//	  "children": ["Sara","Alex","Jack"],
+//	  "friends": [
+//	    {"first": "James", "last": "Murphy"},
+//	    {"first": "Roger", "last": "Craig"}
+//	  ]
+//	}
+//	"name.last"          >> "Anderson"
+//	"age"                >> 37
+//	"children"           >> ["Sara","Alex","Jack"]
+//	"children.#"         >> 3
+//	"children.1"         >> "Alex"
+//	"child*.2"           >> "Jack"
+//	"c?ildren.0"         >> "Sara"
+//	"friends.#.first"    >> ["James","Roger"]
 //
 // This function expects that the json is well-formed, and does not validate.
 // Invalid json will not panic, but it may return back unexpected results.
@@ -1485,8 +1484,7 @@ func unescape(json string) string { //, error) {
 // The caseSensitive paramater is used when the tokens are Strings.
 // The order when comparing two different type is:
 //
-//  Null < False < Number < String < True < JSON
-//
+//	Null < False < Number < String < True < JSON
 func (t Result) Less(token Result, caseSensitive bool) bool {
 	if t.Type < token.Type {
 		return true
@@ -2030,11 +2028,10 @@ func validnull(data []byte, i int) (outi int, ok bool) {
 
 // Valid returns true if the input is valid json.
 //
-//  if !json.Valid(json) {
-//  	return errors.New("invalid json")
-//  }
-//  value := json.Get(json, "name.last")
-//
+//	if !json.Valid(json) {
+//		return errors.New("invalid json")
+//	}
+//	value := json.Get(json, "name.last")
 func Valid(json string) bool {
 	_, ok := validpayload([]byte(json), 0)
 	return ok
@@ -2042,13 +2039,12 @@ func Valid(json string) bool {
 
 // ValidBytes returns true if the input is valid json.
 //
-//  if !json.Valid(json) {
-//  	return errors.New("invalid json")
-//  }
-//  value := json.Get(json, "name.last")
+//	if !json.Valid(json) {
+//		return errors.New("invalid json")
+//	}
+//	value := json.Get(json, "name.last")
 //
 // If working with bytes, this method preferred over Valid(string(data))
-//
 func ValidBytes(json []byte) bool {
 	_, ok := validpayload(json, 0)
 	return ok

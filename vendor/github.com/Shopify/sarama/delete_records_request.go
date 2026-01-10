@@ -1,7 +1,6 @@
 package sarama
 
 import (
-	"slices"
 	"sort"
 	"time"
 )
@@ -112,7 +111,7 @@ func (t *DeleteRecordsRequestTopic) encode(pe packetEncoder) error {
 	for partition := range t.PartitionOffsets {
 		keys = append(keys, partition)
 	}
-	slices.Sort(keys)
+	sort.Slice(keys, func(i, j int) bool { return keys[i] < keys[j] })
 	for _, partition := range keys {
 		pe.putInt32(partition)
 		pe.putInt64(t.PartitionOffsets[partition])

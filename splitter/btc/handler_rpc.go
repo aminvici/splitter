@@ -18,7 +18,7 @@ func newRPCHandler(c *jsonrpc.Client) (*rpcHandler, error) {
 	return h, nil
 }
 
-//let BTC node send data by height
+// let BTC node send data by height
 func (h *rpcHandler) SendBlock(height int64) error {
 	defer stats.Add(MetricRPCCall, 1)
 	_, err := h.client.Call("sendblock", height)
@@ -28,7 +28,7 @@ func (h *rpcHandler) SendBlock(height int64) error {
 	return nil
 }
 
-//let BTC node send data from startHeight to endHeight
+// let BTC node send data from startHeight to endHeight
 func (h *rpcHandler) SendBatchBlock(startHeight, endHeight int64) error {
 	defer stats.Add(MetricRPCCall, 1)
 	_, err := h.client.Call("sendbatchblock", startHeight, endHeight)
@@ -38,7 +38,7 @@ func (h *rpcHandler) SendBatchBlock(startHeight, endHeight int64) error {
 	return nil
 }
 
-//get omni block data
+// get omni block data
 func (h *rpcHandler) GetOmniBlock(height int64) ([]*model.OmniTansaction, error) {
 	defer stats.Add(MetricRPCCall, 1)
 	var data []*model.OmniTansaction
@@ -57,7 +57,7 @@ func (h *rpcHandler) GetOmniBlock(height int64) ([]*model.OmniTansaction, error)
 	return data, nil
 }
 
-//get omni transaction details
+// get omni transaction details
 func (h *rpcHandler) GetOmniTx(txId string) (*model.OmniTansaction, error) {
 	defer stats.Add(MetricRPCCall, 1)
 	data := new(model.OmniTansaction)
@@ -90,7 +90,7 @@ func (h *rpcHandler) GetOmniTx(txId string) (*model.OmniTansaction, error) {
 	return data, nil
 }
 
-//get tether address balance
+// get tether address balance
 func (h *rpcHandler) GetTetherBalance(address string) (int64, error) {
 	defer stats.Add(MetricRPCCall, 1)
 	var data int64

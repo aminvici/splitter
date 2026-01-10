@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"maps"
 	"math/rand"
 	"strconv"
 	"sync"
@@ -1009,10 +1008,7 @@ func (ca *clusterAdmin) ListConsumerGroups() (allGroups map[string]string, err e
 			_ = b.Open(conf) // Ensure that broker is opened
 
 			request := &ListGroupsRequest{}
-			if ca.conf.Version.IsAtLeast(V3_8_0_0) {
-				// Version 5 adds the TypesFilter field (KIP-848).
-				request.Version = 5
-			} else if ca.conf.Version.IsAtLeast(V2_6_0_0) {
+			if ca.conf.Version.IsAtLeast(V2_6_0_0) {
 				// Version 4 adds the StatesFilter field (KIP-518).
 				request.Version = 4
 			} else if ca.conf.Version.IsAtLeast(V2_4_0_0) {
@@ -1033,7 +1029,9 @@ func (ca *clusterAdmin) ListConsumerGroups() (allGroups map[string]string, err e
 			}
 
 			groups := make(map[string]string)
-			maps.Copy(groups, response.Groups)
+			for group, typ := range response.Groups {
+				groups[group] = typ
+			}
 
 			groupMaps <- groups
 		}(b, ca.conf)
@@ -1044,7 +1042,9 @@ func (ca *clusterAdmin) ListConsumerGroups() (allGroups map[string]string, err e
 	close(errChan)
 
 	for groupMap := range groupMaps {
-		maps.Copy(allGroups, groupMap)
+		for group, protocolType := range groupMap {
+			allGroups[group] = protocolType
+		}
 	}
 
 	// Intentionally return only the first error for simplicity
@@ -1176,22 +1176,12 @@ func (ca *clusterAdmin) DescribeLogDirs(brokerIds []int32) (allLogDirs map[int32
 			_ = b.Open(conf) // Ensure that broker is opened
 
 			request := &DescribeLogDirsRequest{}
-			if ca.conf.Version.IsAtLeast(V3_3_0_0) {
-				request.Version = 4
-			} else if ca.conf.Version.IsAtLeast(V3_2_0_0) {
-				request.Version = 3
-			} else if ca.conf.Version.IsAtLeast(V2_6_0_0) {
-				request.Version = 2
-			} else if ca.conf.Version.IsAtLeast(V2_0_0_0) {
+			if ca.conf.Version.IsAtLeast(V2_0_0_0) {
 				request.Version = 1
 			}
 			response, err := b.DescribeLogDirs(request)
 			if err != nil {
 				errChan <- err
-				return
-			}
-			if !errors.Is(response.ErrorCode, ErrNoError) {
-				errChan <- response.ErrorCode
 				return
 			}
 			logDirs := make(map[int32][]DescribeLogDirsResponseDirMetadata)
@@ -1205,7 +1195,9 @@ func (ca *clusterAdmin) DescribeLogDirs(brokerIds []int32) (allLogDirs map[int32
 	close(errChan)
 
 	for logDirsMap := range logDirsMaps {
-		maps.Copy(allLogDirs, logDirsMap)
+		for id, logDirs := range logDirsMap {
+			allLogDirs[id] = logDirs
+		}
 	}
 
 	// Intentionally return only the first error for simplicity
